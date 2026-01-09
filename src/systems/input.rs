@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_ratatui::event::KeyMessage;
 use ratatui::crossterm::event::KeyCode;
 
-use crate::{components::player::MoveEvent, resources::player::LocalPlayer};
+use crate::resources::{events::MoveEvent, player::LocalPlayer};
 pub fn input_system(
     mut messages: MessageReader<KeyMessage>,
     mut move_writer: MessageWriter<MoveEvent>,
@@ -23,7 +23,7 @@ pub fn input_system(
         };
 
         move_writer.write(MoveEvent {
-            player: local_player.0,
+            entity: local_player.0,
             dx,
             dy,
         });

@@ -1,2 +1,4 @@
-#[derive(Clone, Copy, Hash, Eq, Ord, PartialEq, PartialOrd)]
-pub struct Entity(pub(crate) u32);
+use bevy::ecs::component::Component;
+
+#[derive(Component, Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct EntityId(pub u32);

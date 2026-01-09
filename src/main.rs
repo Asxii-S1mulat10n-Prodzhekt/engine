@@ -1,11 +1,8 @@
 use bevy::prelude::*;
 use bevy_ratatui::RatatuiPlugins;
 use engine::{
-    components::{
-        player::{MoveEvent, Player, PlayerId},
-        position::Position,
-    },
-    resources::player::LocalPlayer,
+    entities::EntityId,
+    resources::{events::MoveEvent, player::LocalPlayer},
     systems::prelude::*,
 };
 fn main() {
@@ -16,7 +13,7 @@ fn main() {
             )),
             RatatuiPlugins::default(),
         ))
-        .insert_resource(LocalPlayer(PlayerId(0)))
+        .insert_resource(LocalPlayer(EntityId(0)))
         .add_message::<MoveEvent>()
         .add_systems(Startup, add_player)
         .add_systems(PreUpdate, input_system)

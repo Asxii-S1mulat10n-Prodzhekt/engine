@@ -1,5 +1,6 @@
-use crate::components::player::PlayerId;
 use bevy::ecs::resource::Resource;
 
+use crate::entities::EntityId;
+
 #[derive(Resource)]
-pub struct LocalPlayer(pub PlayerId);
+pub struct LocalPlayer(pub EntityId);

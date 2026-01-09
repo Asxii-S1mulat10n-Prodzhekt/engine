@@ -1,2 +1,2 @@
-pub mod add_players;
-pub use add_players::add_player;
+pub mod add_player;
+pub use add_player::add_player;
