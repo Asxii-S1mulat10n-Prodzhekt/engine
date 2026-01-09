@@ -1,30 +1,31 @@
-use crate::resources::keyboard::MovementMessage;
 use bevy::prelude::*;
 use bevy_ratatui::event::KeyMessage;
 use ratatui::crossterm::event::KeyCode;
+
+use crate::{components::player::MoveEvent, resources::player::LocalPlayer};
 pub fn input_system(
     mut messages: MessageReader<KeyMessage>,
-    mut move_message: MessageWriter<MovementMessage>,
+    mut move_writer: MessageWriter<MoveEvent>,
     mut exit: MessageWriter<AppExit>,
+    local_player: Res<LocalPlayer>,
 ) {
     for message in messages.read() {
-        match message.code {
-            KeyCode::Char('w') => {
-                move_message.write(MovementMessage::Forward);
-            }
-            KeyCode::Char('a') => {
-                move_message.write(MovementMessage::Left);
-            }
-            KeyCode::Char('s') => {
-                move_message.write(MovementMessage::Right);
-            }
-            KeyCode::Char('d') => {
-                move_message.write(MovementMessage::Backward);
-            }
+        let (dx, dy) = match message.code {
+            KeyCode::Char('w') => (0.0, 1.0),
+            KeyCode::Char('s') => (0.0, -1.0),
+            KeyCode::Char('a') => (-1.0, 0.0),
+            KeyCode::Char('d') => (1.0, 0.0),
             KeyCode::Esc => {
                 exit.write_default();
+                continue;
             }
-            _ => {}
-        }
+            _ => continue,
+        };
+
+        move_writer.write(MoveEvent {
+            player: local_player.0,
+            dx,
+            dy,
+        });
     }
 }
