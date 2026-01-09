@@ -9,6 +9,7 @@ fn main() {
             )),
             RatatuiPlugins::default(),
         ))
+        .add_systems(Startup, add_players)
         .add_systems(PreUpdate, input_system)
         .add_systems(Update, draw_system)
         .run();

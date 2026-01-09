@@ -1,10 +1,17 @@
 use bevy::prelude::*;
 use bevy_ratatui::RatatuiContext;
 use ratatui::text::Text;
-pub fn draw_system(mut context: ResMut<RatatuiContext>) -> Result {
+
+use crate::components::{player::Player, position::Position};
+pub fn draw_system(
+    mut context: ResMut<RatatuiContext>,
+    query: Query<&Position, With<Player>>,
+) -> Result {
     context.draw(|frame| {
-        let text = Text::raw("hello world\npress 'q' to quit");
-        frame.render_widget(text, frame.area());
+        for player in &query {
+            let text = Text::raw(format!("{} ", player));
+            frame.render_widget(text, frame.area());
+        }
     })?;
 
     Ok(())
