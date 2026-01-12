@@ -6,5 +6,5 @@ use crate::{
 };
 
 pub fn add_player(mut commands: Commands) {
-    commands.spawn((Player, ClientId(0), Position::new(10.0, 10.0)));
+    commands.spawn((Player, ClientId(0), Position::new(10.0, 10.0, 0.0)));
 }

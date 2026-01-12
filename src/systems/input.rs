@@ -10,8 +10,8 @@ pub fn input_system(
 ) {
     for message in messages.read() {
         let (dx, dy) = match message.code {
-            KeyCode::Char('w') => (0.0, 1.0),
-            KeyCode::Char('s') => (0.0, -1.0),
+            KeyCode::Char('w') => (0.0, -1.0),
+            KeyCode::Char('s') => (0.0, 1.0),
             KeyCode::Char('a') => (-1.0, 0.0),
             KeyCode::Char('d') => (1.0, 0.0),
             KeyCode::Esc => {
@@ -21,6 +21,6 @@ pub fn input_system(
             _ => continue,
         };
 
-        move_writer.write(MoveEvent { dx, dy });
+        move_writer.write(MoveEvent { dx, dy, dz: 0.0 });
     }
 }

@@ -4,14 +4,20 @@ use bevy::ecs::component::Component;
 pub struct Position {
     x: f32,
     y: f32,
+    z: f32,
 }
 impl Position {
-    pub fn new(x: f32, y: f32) -> Self {
-        Self { x, y }
+    pub fn new(x: f32, y: f32, z: f32) -> Self {
+        Self { x, y, z }
     }
-    pub fn incress(&mut self, x: f32, y: f32) {
+    pub fn incress(&mut self, x: f32, y: f32, z: f32) {
         self.x += x;
         self.y += y;
+        self.z += y;
+    }
+
+    pub fn get_position_as_u16(&self) -> (u16, u16, u16) {
+        (self.x as u16, self.y as u16, self.z as u16)
     }
 }
 impl std::fmt::Display for Position {

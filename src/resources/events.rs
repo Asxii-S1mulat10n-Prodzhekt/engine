@@ -4,4 +4,5 @@ use bevy::ecs::message::Message;
 pub struct MoveEvent {
     pub dx: f32,
     pub dy: f32,
+    pub dz: f32,
 }
