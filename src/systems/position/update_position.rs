@@ -15,7 +15,6 @@ pub fn movement_system(
 ) {
     for e in events.read() {
         for (_, id, mut pos) in query.iter_mut() {
-            pos.gravity();
             if &owned_id.0 == id {
                 pos.incress(e.dx, e.dy, e.dz);
             }

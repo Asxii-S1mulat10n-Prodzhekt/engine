@@ -17,7 +17,7 @@ impl Position {
     }
 
     pub fn gravity(&mut self) {
-        self.z = (self.z - 0.01).clamp(0.0, 100.0);
+        self.z = (self.z - 0.1).clamp(0.0, 100.0);
     }
 
     pub fn get_position_as_u16(&self) -> (u16, u16, u16) {
