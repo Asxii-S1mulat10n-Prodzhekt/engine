@@ -11,9 +11,13 @@ impl Position {
         Self { x, y, z }
     }
     pub fn incress(&mut self, dx: f32, dy: f32, dz: f32) {
-        self.x = (self.x + dx).clamp(0.0, 50.0);
-        self.y = (self.y + dy).clamp(0.0, 50.0);
-        self.z = (self.z + dz).clamp(0.0, 50.0);
+        self.x = (self.x + dx).clamp(0.0, 200.0);
+        self.y = (self.y + dy).clamp(0.0, 200.0);
+        self.z = (self.z + dz).clamp(0.0, 200.0);
+    }
+
+    pub fn gravity(&mut self) {
+        self.z = (self.z - 0.01).clamp(0.0, 100.0);
     }
 
     pub fn get_position_as_u16(&self) -> (u16, u16, u16) {

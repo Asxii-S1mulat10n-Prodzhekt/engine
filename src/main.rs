@@ -18,6 +18,7 @@ fn main() {
         .add_systems(Startup, add_player)
         .add_systems(PreUpdate, input_system)
         .add_systems(Update, movement_system)
+        .add_systems(Update, gravity_system)
         .add_systems(Update, draw_system)
         .run();
 }
