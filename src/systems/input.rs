@@ -2,12 +2,11 @@ use bevy::prelude::*;
 use bevy_ratatui::event::KeyMessage;
 use ratatui::crossterm::event::KeyCode;
 
-use crate::resources::{events::MoveEvent, player::LocalPlayer};
+use crate::resources::events::MoveEvent;
 pub fn input_system(
     mut messages: MessageReader<KeyMessage>,
     mut move_writer: MessageWriter<MoveEvent>,
     mut exit: MessageWriter<AppExit>,
-    local_player: Res<LocalPlayer>,
 ) {
     for message in messages.read() {
         let (dx, dy) = match message.code {
@@ -22,10 +21,6 @@ pub fn input_system(
             _ => continue,
         };
 
-        move_writer.write(MoveEvent {
-            entity: local_player.0,
-            dx,
-            dy,
-        });
+        move_writer.write(MoveEvent { dx, dy });
     }
 }

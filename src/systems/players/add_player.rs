@@ -1,10 +1,10 @@
 use bevy::ecs::system::Commands;
 
 use crate::{
-    components::{player::Player, position::Position},
-    entities::EntityId,
+    components::{position::Position, server::ClientId},
+    entities::Player,
 };
 
 pub fn add_player(mut commands: Commands) {
-    commands.spawn((Player, EntityId(0), Position::new(10.0, 10.0)));
+    commands.spawn((Player, ClientId(0), Position::new(10.0, 10.0)));
 }

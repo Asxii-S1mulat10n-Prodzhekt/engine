@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_ratatui::RatatuiContext;
 use ratatui::text::Text;
 
-use crate::components::{player::Player, position::Position};
+use crate::{components::position::Position, entities::Player};
 pub fn draw_system(
     mut context: ResMut<RatatuiContext>,
     query: Query<&Position, With<Player>>,

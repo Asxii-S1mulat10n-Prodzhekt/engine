@@ -1,13 +1,21 @@
-use crate::{components::position::Position, entities::EntityId, resources::events::MoveEvent};
-use bevy::ecs::{message::MessageReader, system::Query};
+use crate::{
+    components::{position::Position, server::ClientId},
+    entities::Player,
+    resources::{events::MoveEvent, player::OwnedBy},
+};
+use bevy::ecs::{
+    message::MessageReader,
+    system::{Query, Res},
+};
 
 pub fn movement_system(
     mut events: MessageReader<MoveEvent>,
-    mut query: Query<(&EntityId, &mut Position)>,
+    mut query: Query<(&Player, &ClientId, &mut Position)>,
+    owned_id: Res<OwnedBy>,
 ) {
     for e in events.read() {
-        for (id, mut pos) in query.iter_mut() {
-            if *id == e.entity {
+        for (_, id, mut pos) in query.iter_mut() {
+            if &owned_id.0 == id {
                 pos.incress(e.dx, e.dy);
             }
         }

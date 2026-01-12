@@ -1,6 +1,5 @@
+use crate::components::server::ClientId;
 use bevy::ecs::resource::Resource;
 
-use crate::entities::EntityId;
-
 #[derive(Resource)]
-pub struct LocalPlayer(pub EntityId);
+pub struct OwnedBy(pub ClientId);
