@@ -45,12 +45,20 @@ fn draw_wall(
     };
     let dyb = y2 - y1;
     let dyt = y4 - y3;
+    let dyb = if dyb == 0 { 1 } else { dyb };
+    let dyt = if dyt == 0 { 1 } else { dyt };
     let dx = if x2 - x1 == 0 { 1 } else { x2 - x1 };
     let xs = x1;
     let overray = Paragraph::new("█").style(Style::default().fg(color).bg(RColor::Black));
     for x in x1..x2 {
-        let yb = dyb * (((x as f32) - (xs as f32) + 0.5) as i16) / dx + y1;
-        let yt = dyt * (((x as f32) - (xs as f32) + 0.5) as i16) / dx + y3;
+        let t = (x as f64 - xs as f64 + 0.5) / dx as f64;
+        let yb = (dyb as f64 * t + y1 as f64)
+            .round()
+            .clamp(i16::MIN as f64, i16::MAX as f64) as i16;
+
+        let yt = (dyt as f64 * t + y3 as f64)
+            .round()
+            .clamp(i16::MIN as f64, i16::MAX as f64) as i16;
         let y_start = yb.max(0);
         let y_end = yt.min(screen_height - 1);
         if x >= screen_weight {
@@ -115,16 +123,28 @@ pub fn draw_system(
             frame.render_widget(screen_overray, area);
             let mut x1: i16 = 40 - x as i16;
             let mut y1: i16 = 40 - y as i16;
-            let mut z1: i16 = 20 + z as i16;
+            let mut z1: i16 = 10 + z as i16;
             let mut x2: i16 = 40 - x as i16;
             let mut y2: i16 = 30 - y as i16;
             let mut z2: i16 = 20 + z as i16;
             let mut x3: i16 = 40 - x as i16;
             let mut y3: i16 = 40 - y as i16;
-            let mut z3: i16 = -20 + z as i16;
+            let mut z3: i16 = -10 + z as i16;
             let mut x4: i16 = 40 - x as i16;
             let mut y4: i16 = 30 - y as i16;
             let mut z4: i16 = -20 + z as i16;
+            if x1 < 1 {
+                std::mem::swap(&mut x1, &mut x2);
+                std::mem::swap(&mut y1, &mut y2);
+                std::mem::swap(&mut z1, &mut z2);
+                std::mem::swap(&mut x3, &mut x4);
+                std::mem::swap(&mut y3, &mut y4);
+                std::mem::swap(&mut z3, &mut z4);
+            }
+            if y1 == 0 && y2 < 0 {
+                return;
+            }
+
             if y1 < 1 {
                 clip_wall(&mut x1, &mut y1, &mut z1, x2, y2, z2);
                 clip_wall(&mut x3, &mut y3, &mut z3, x4, y4, z4);
@@ -134,7 +154,6 @@ pub fn draw_system(
                 clip_wall(&mut x2, &mut y2, &mut z2, x1, y1, z1);
                 clip_wall(&mut x4, &mut y4, &mut z4, x3, y3, z3);
             }
-
             let mut wx1: i16 = x1 * 20 / y1 + half_screen_width as i16;
             let mut wy1: i16 = z1 * 20 / y1 + half_screen_height as i16;
 
@@ -158,41 +177,40 @@ pub fn draw_system(
                 wy2,
             );
 
-            let x1: i16 = -20 - x as i16;
-            let y1: i16 = 40 - y as i16;
-            let z1: i16 = 20 + z as i16;
-            let wx1: i16 = x1 * 20 / y1 + half_screen_width as i16;
-            let wy1: i16 = z1 * 20 / y1 + half_screen_height as i16;
-
-            let x2: i16 = 40 - x as i16;
-            let y2: i16 = 40 - y as i16;
-            let z2: i16 = 20 + z as i16;
-            let wx2: i16 = x2 * 20 / y2 + half_screen_width as i16;
-            let wy2: i16 = z2 * 20 / y2 + half_screen_height as i16;
-
-            let x3: i16 = -20 - x as i16;
-            let y3: i16 = 40 - y as i16;
-            let z3: i16 = -20 + z as i16;
-            let wx3: i16 = x3 * 20 / y3 + half_screen_width as i16;
-            let wy3: i16 = z3 * 20 / y3 + half_screen_height as i16;
-
-            let x4: i16 = 40 - x as i16;
-            let y4: i16 = 40 - y as i16;
-            let z4: i16 = -20 + z as i16;
-            let wx4: i16 = x4 * 20 / y4 + half_screen_width as i16;
-            let wy4: i16 = z4 * 20 / y4 + half_screen_height as i16;
-            draw_wall(
-                frame,
-                screen_width as i16,
-                screen_height as i16,
-                RColor::LightCyan,
-                wx1,
-                wx2,
-                wy3,
-                wy4,
-                wy1,
-                wy2,
-            );
+            // let x1: i16 = -20 - x as i16; let y1: i16 = 40 - y as i16;
+            // let z1: i16 = 20 + z as i16;
+            // let wx1: i16 = x1 * 20 / y1 + half_screen_width as i16;
+            // let wy1: i16 = z1 * 20 / y1 + half_screen_height as i16;
+            //
+            // let x2: i16 = 40 - x as i16;
+            // let y2: i16 = 40 - y as i16;
+            // let z2: i16 = 20 + z as i16;
+            // let wx2: i16 = x2 * 20 / y2 + half_screen_width as i16;
+            // let wy2: i16 = z2 * 20 / y2 + half_screen_height as i16;
+            //
+            // let x3: i16 = -20 - x as i16;
+            // let y3: i16 = 40 - y as i16;
+            // let z3: i16 = -20 + z as i16;
+            // let wx3: i16 = x3 * 20 / y3 + half_screen_width as i16;
+            // let wy3: i16 = z3 * 20 / y3 + half_screen_height as i16;
+            //
+            // let x4: i16 = 40 - x as i16;
+            // let y4: i16 = 40 - y as i16;
+            // let z4: i16 = -20 + z as i16;
+            // let wx4: i16 = x4 * 20 / y4 + half_screen_width as i16;
+            // let wy4: i16 = z4 * 20 / y4 + half_screen_height as i16;
+            // draw_wall(
+            //     frame,
+            //     screen_width as i16,
+            //     screen_height as i16,
+            //     RColor::LightCyan,
+            //     wx1,
+            //     wx2,
+            //     wy3,
+            //     wy4,
+            //     wy1,
+            //     wy2,
+            // );
             // draw_dot(frame, wx1, wy1);
             // draw_star(frame, wx2, wy2);
             let area = RRect {
