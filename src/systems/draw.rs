@@ -1,3 +1,5 @@
+use std::i16::MAX;
+
 use crate::{components::position::Position, entities::Player};
 use bevy::prelude::*;
 use bevy_ratatui::RatatuiContext;
@@ -177,42 +179,41 @@ pub fn draw_system(
                 wy2,
             );
 
-            // let x1: i16 = -20 - x as i16; let y1: i16 = 40 - y as i16;
-            // let z1: i16 = 20 + z as i16;
-            // let wx1: i16 = x1 * 20 / y1 + half_screen_width as i16;
-            // let wy1: i16 = z1 * 20 / y1 + half_screen_height as i16;
-            //
-            // let x2: i16 = 40 - x as i16;
-            // let y2: i16 = 40 - y as i16;
-            // let z2: i16 = 20 + z as i16;
-            // let wx2: i16 = x2 * 20 / y2 + half_screen_width as i16;
-            // let wy2: i16 = z2 * 20 / y2 + half_screen_height as i16;
-            //
-            // let x3: i16 = -20 - x as i16;
-            // let y3: i16 = 40 - y as i16;
-            // let z3: i16 = -20 + z as i16;
-            // let wx3: i16 = x3 * 20 / y3 + half_screen_width as i16;
-            // let wy3: i16 = z3 * 20 / y3 + half_screen_height as i16;
-            //
-            // let x4: i16 = 40 - x as i16;
-            // let y4: i16 = 40 - y as i16;
-            // let z4: i16 = -20 + z as i16;
-            // let wx4: i16 = x4 * 20 / y4 + half_screen_width as i16;
-            // let wy4: i16 = z4 * 20 / y4 + half_screen_height as i16;
-            // draw_wall(
-            //     frame,
-            //     screen_width as i16,
-            //     screen_height as i16,
-            //     RColor::LightCyan,
-            //     wx1,
-            //     wx2,
-            //     wy3,
-            //     wy4,
-            //     wy1,
-            //     wy2,
-            // );
-            // draw_dot(frame, wx1, wy1);
-            // draw_star(frame, wx2, wy2);
+            let x1: i16 = -20 - x as i16;
+            let y1: i16 = 40 - y as i16;
+            let z1: i16 = 20 + z as i16;
+            let wx1: i16 = x1 * 20 / y1.clamp(1, MAX) + half_screen_width as i16;
+            let wy1: i16 = z1 * 20 / y1.clamp(1, MAX) + half_screen_height as i16;
+
+            let x2: i16 = 40 - x as i16;
+            let y2: i16 = 40 - y as i16;
+            let z2: i16 = 20 + z as i16;
+            let wx2: i16 = x2 * 20 / y2.clamp(1, MAX) + half_screen_width as i16;
+            let wy2: i16 = z2 * 20 / y2.clamp(1, MAX) + half_screen_height as i16;
+
+            let x3: i16 = -20 - x as i16;
+            let y3: i16 = 40 - y as i16;
+            let z3: i16 = -20 + z as i16;
+            let wx3: i16 = x3 * 20 / y3.clamp(1, MAX) + half_screen_width as i16;
+            let wy3: i16 = z3 * 20 / y3.clamp(1, MAX) + half_screen_height as i16;
+
+            let x4: i16 = 40 - x as i16;
+            let y4: i16 = 40 - y as i16;
+            let z4: i16 = -20 + z as i16;
+            let wx4: i16 = x4 * 20 / y4.clamp(1, MAX) + half_screen_width as i16;
+            let wy4: i16 = z4 * 20 / y4.clamp(1, MAX) + half_screen_height as i16;
+            draw_wall(
+                frame,
+                screen_width as i16,
+                screen_height as i16,
+                RColor::LightCyan,
+                wx1,
+                wx2,
+                wy3,
+                wy4,
+                wy1,
+                wy2,
+            );
             let area = RRect {
                 x: 0,
                 y: 0,
