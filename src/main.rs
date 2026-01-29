@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_ratatui::RatatuiPlugins;
 use engine::{
     components::server::ClientId,
-    resources::{events::MoveEvent, player::OwnedBy},
+    resources::{events::MoveEvent, map::Obstacles, player::OwnedBy},
     systems::prelude::*,
 };
 fn main() {
@@ -13,6 +13,7 @@ fn main() {
             )),
             RatatuiPlugins::default(),
         ))
+        .insert_resource(Obstacles::new())
         .insert_resource(OwnedBy(ClientId(0)))
         .add_message::<MoveEvent>()
         .add_systems(Startup, add_player)

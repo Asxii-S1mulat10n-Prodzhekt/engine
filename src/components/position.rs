@@ -1,4 +1,4 @@
-use bevy::ecs::component::Component;
+use bevy::{ecs::component::Component, math::Vec3};
 #[derive(Component)]
 #[component(storage = "Table")] // Default
 pub struct Position {
@@ -22,6 +22,9 @@ impl Position {
 
     pub fn get_position_as_u16(&self) -> (u16, u16, u16) {
         (self.x as u16, self.y as u16, self.z as u16)
+    }
+    pub fn as_vec3(&self) -> Vec3 {
+        Vec3::new(self.x, self.y, self.z)
     }
 }
 impl std::fmt::Display for Position {
