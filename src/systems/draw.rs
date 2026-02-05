@@ -53,12 +53,12 @@ pub fn draw_system(
                 screen_height, screen_width
             ));
             frame.render_widget(screen_overray, area);
-            let obs = obstacles.get_positions();
-            for ob in obs.axis_iter(Axis(1)) {
-                for i in ob.axis_iter(Axis(0)) {
-                    draw_star(frame, i[0] as i16, i[1] as i16);
-                }
-            }
+            // let obs = obstacles.get_positions();
+            // for ob in obs.axis_iter(Axis(1)) {
+            //     for i in ob.axis_iter(Axis(0)) {
+            //         draw_star(frame, i[0] as i16, i[1] as i16);
+            //     }
+            // }
             let area = RRect {
                 x: 0,
                 y: 0,

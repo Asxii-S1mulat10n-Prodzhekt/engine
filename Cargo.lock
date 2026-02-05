@@ -1379,6 +1379,7 @@ dependencies = [
  "ndarray",
  "openblas-src",
  "rand",
+ "rand_chacha",
  "ratatui",
  "tracing",
 ]
